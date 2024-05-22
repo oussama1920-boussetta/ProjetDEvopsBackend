@@ -33,7 +33,7 @@ public class Supplier implements Serializable {
 	SupplierCategory supplierCategory;
 	@OneToMany(mappedBy="supplier")
 	@JsonIgnore
-	Set<Invoice> invoices;
+	private Set<Invoice> invoices;
     
 
 	

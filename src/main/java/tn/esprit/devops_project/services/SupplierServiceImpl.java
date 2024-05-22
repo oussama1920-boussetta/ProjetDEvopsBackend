@@ -5,9 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tn.esprit.devops_project.entities.Supplier;
 import tn.esprit.devops_project.repositories.SupplierRepository;
-import tn.esprit.devops_project.services.Iservices.ISupplierService;
+import tn.esprit.devops_project.services.iservices.ISupplierService;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,8 +33,8 @@ public class SupplierServiceImpl implements ISupplierService {
 	}
 
 	@Override
-	public void deleteSupplier(Long SupplierId) {
-		supplierRepository.deleteById(SupplierId);
+	public void deleteSupplier(Long supplierId) {
+		supplierRepository.deleteById(supplierId);
 
 	}
 
