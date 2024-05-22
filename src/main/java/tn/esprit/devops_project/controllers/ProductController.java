@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:8082")
 public class ProductController {
 
     private final IProductService productService;
@@ -26,11 +26,11 @@ public class ProductController {
     }
 
     @GetMapping("/product")
-    public List<Product> retreiveAllProduct(){
+    public List<Product> retrieveAllProduct(){
         return productService.retreiveAllProduct();
     }
     @GetMapping("/product/stock/{id}")
-    public List<Product> retreiveProductStock(@PathVariable Long id){
+    public List<Product> retrieveProductStock(@PathVariable Long id){
         return productService.retreiveProductStock(id);
     }
 

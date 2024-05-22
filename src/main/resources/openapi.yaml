@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: Summer_Workshop
+  description: Summer_Workshop
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8082'
+tags:
+  - name: Product
+    description: Operations related to products
+  - name: Stock
+    description: Operations related to stock
+paths:
+  /product:
+    get:
+      tags:
+        - Product
+      summary: "Retrieve all products"
+      operationId: "retrieveAllProduct"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Product"
+  /product/{idStock}:
+    post:
+      tags:
+        - Product
+      summary: "Add a product and assign it to a stock"
+      operationId: "addProduct"
+      parameters:
+        - in: path
+          name: idStock
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+  /product/{id}:
+    get:
+      tags:
+        - Product
+      summary: "Retrieve a product by ID"
+      operationId: "retrieveProduct"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+    delete:
+      tags:
+        - Product
+      summary: "Delete a product by ID"
+      operationId: "deleteProduct"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: "Successful operation"
+  /product/{category}:
+    get:
+      tags:
+        - Product
+      summary: "Retrieve products by category"
+      operationId: "retrieveProductByCategory"
+      parameters:
+        - in: path
+          name: category
+          required: true
+          schema:
+            $ref: "#/components/schemas/ProductCategory"
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Product"
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        idProduct:
+          type: integer
+          format: int32
+        title:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: integer
+
+    ProductCategory:
+      type: string
+      enum:
+        - ELECTRONICS
+        - CLOTHING
+        - BOOKS
