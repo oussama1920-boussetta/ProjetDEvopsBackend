@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import tn.esprit.devops_project.services.iservices.IProductService;
 import tn.esprit.devops_project.entities.Product;
 import tn.esprit.devops_project.entities.ProductCategory;
-import tn.esprit.devops_project.entities.Stock;
 import tn.esprit.devops_project.repositories.ProductRepository;
 import tn.esprit.devops_project.repositories.StockRepository;
 
@@ -22,7 +21,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Product addProduct(Product product, Long idStock) {
-        Stock stock = stockRepository.findById(idStock).orElseThrow(() -> new NullPointerException("stock not found"));
+        var stock = stockRepository.findById(idStock).orElseThrow(() -> new NullPointerException("stock not found"));
         product.setStock(stock);
         return productRepository.save(product);
     }
