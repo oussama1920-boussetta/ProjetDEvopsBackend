@@ -3,6 +3,7 @@ package tn.esprit.devops_project.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.devops_project.entities.Invoice;
 import tn.esprit.devops_project.repositories.InvoiceDetailRepository;
 import tn.esprit.devops_project.repositories.InvoiceRepository;
@@ -32,12 +33,13 @@ public class InvoiceServiceImpl implements IInvoiceService {
     }
 
     @Override
+    @Transactional
     public void cancelInvoice(Long invoiceId) {
         // method 01
         var invoice = invoiceRepository.findById(invoiceId).orElseThrow(() -> new NullPointerException(INVOICE_NOT_FOUND_MESSAGE));
         invoice.setArchived(true);
         invoiceRepository.save(invoice);
-        //method 02 (Avec JPQL)
+        // method 02 (Avec JPQL)
         invoiceRepository.updateInvoice(invoiceId);
     }
 

@@ -14,6 +14,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Operator implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -24,7 +25,7 @@ public class Operator implements Serializable {
     String fname;
     String lname;
     String password;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Invoice> invoices = new HashSet<>();
 
