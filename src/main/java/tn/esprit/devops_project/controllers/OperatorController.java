@@ -11,32 +11,32 @@ import java.util.List;
 @AllArgsConstructor
 public class OperatorController {
 
-	IOperatorService operatorService;
-	
-	@GetMapping("/operator")
-	public List<Operator> getOperators() {
-		return operatorService.retrieveAllOperators();
-	}
+    IOperatorService operatorService;
 
-	@GetMapping("/operator/{operatorId}")
-	public Operator retrieveoperator(@PathVariable Long operatorId) {
-		return operatorService.retrieveOperator(operatorId);
-	}
+    @GetMapping("/operator")
+    public List<Operator> getOperators() {
+        return operatorService.retrieveAllOperators();
+    }
 
-	@PostMapping("/operator")
-	public Operator addOperator(@RequestBody Operator operator) {
-		return operatorService.addOperator(operator);
-	}
+    @GetMapping("/operator/{operatorId}")
+    public Operator retrieveoperator(@PathVariable Long operatorId) {
+        return operatorService.retrieveOperator(operatorId);
+    }
 
-	@DeleteMapping("/operatot/{operatorId}")
-	public void removeOperator(@PathVariable Long operatorId) {
-		operatorService.deleteOperator(operatorId);
-	}
+    @PostMapping("/operator")
+    public Operator addOperator(@RequestBody Operator operator) {
+        return operatorService.addOperator(operator);
+    }
 
-	@PutMapping("/operator")
-	public Operator modifyOperateur(@RequestBody Operator operator) {
-		return operatorService.updateOperator(operator);
-	}
+    @DeleteMapping("/operator/{operatorId}")
+    public void removeOperator(@PathVariable Long operatorId) {
+        operatorService.deleteOperator(operatorId);
+    }
 
-	
+    @PutMapping("/operator")
+    public Operator modifyOperateur(@RequestBody Operator operator) {
+        return operatorService.updateOperator(operator);
+    }
+
+
 }
