@@ -10,6 +10,7 @@ import tn.esprit.devops_project.repositories.OperatorRepository;
 import tn.esprit.devops_project.repositories.SupplierRepository;
 import tn.esprit.devops_project.services.iservices.IInvoiceService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,51 +19,53 @@ import java.util.List;
 @AllArgsConstructor
 public class InvoiceServiceImpl implements IInvoiceService {
 
-	final InvoiceRepository invoiceRepository;
-	final OperatorRepository operatorRepository;
-	final InvoiceDetailRepository invoiceDetailRepository;
-	final SupplierRepository supplierRepository;
+    final InvoiceRepository invoiceRepository;
+    final OperatorRepository operatorRepository;
+    final InvoiceDetailRepository invoiceDetailRepository;
+    final SupplierRepository supplierRepository;
 
-	private static final String INVOICE_NOT_FOUND_MESSAGE = "Invoice not found";
+    private static final String INVOICE_NOT_FOUND_MESSAGE = "Invoice not found";
 
-	@Override
-	public List<Invoice> retrieveAllInvoices() {
-		return invoiceRepository.findAll();
-	}
-	@Override
-	public void cancelInvoice(Long invoiceId) {
-		// method 01
-		var invoice = invoiceRepository.findById(invoiceId).orElseThrow(() -> new NullPointerException(INVOICE_NOT_FOUND_MESSAGE));
-		invoice.setArchived(true);
-		invoiceRepository.save(invoice);
-		//method 02 (Avec JPQL)
-		invoiceRepository.updateInvoice(invoiceId);
-	}
+    @Override
+    public List<Invoice> retrieveAllInvoices() {
+        return invoiceRepository.findAll();
+    }
 
-	@Override
-	public Invoice retrieveInvoice(Long invoiceId) {
+    @Override
+    public void cancelInvoice(Long invoiceId) {
+        // method 01
+        var invoice = invoiceRepository.findById(invoiceId).orElseThrow(() -> new NullPointerException(INVOICE_NOT_FOUND_MESSAGE));
+        invoice.setArchived(true);
+        invoiceRepository.save(invoice);
+        //method 02 (Avec JPQL)
+        invoiceRepository.updateInvoice(invoiceId);
+    }
 
-		return invoiceRepository.findById(invoiceId).orElseThrow(() -> new NullPointerException(INVOICE_NOT_FOUND_MESSAGE));
-	}
+    @Override
+    public Invoice retrieveInvoice(Long invoiceId) {
 
-	@Override
-	public List<Invoice> getInvoicesBySupplier(Long idSupplier) {
-		var supplier = supplierRepository.findById(idSupplier).orElseThrow(() -> new NullPointerException("Supplier not found"));
-		return (List<Invoice>) supplier.getInvoices();
-	}
+        return invoiceRepository.findById(invoiceId).orElseThrow(() -> new NullPointerException(INVOICE_NOT_FOUND_MESSAGE));
+    }
 
-	@Override
-	public void assignOperatorToInvoice(Long idOperator, Long idInvoice) {
-		var invoice = invoiceRepository.findById(idInvoice).orElseThrow(() -> new NullPointerException(INVOICE_NOT_FOUND_MESSAGE));
-		var operator = operatorRepository.findById(idOperator).orElseThrow(() -> new NullPointerException("Operator not found"));
-		operator.getInvoices().add(invoice);
-		operatorRepository.save(operator);
-	}
+    @Override
+    public List<Invoice> getInvoicesBySupplier(Long idSupplier) {
+        var supplier = supplierRepository.findById(idSupplier).orElseThrow(() -> new NullPointerException("Supplier not found"));
+        return new ArrayList<>(supplier.getInvoices());
 
-	@Override
-	public float getTotalAmountInvoiceBetweenDates(Date startDate, Date endDate) {
-		return invoiceRepository.getTotalAmountInvoiceBetweenDates(startDate, endDate);
-	}
+    }
+
+    @Override
+    public void assignOperatorToInvoice(Long idOperator, Long idInvoice) {
+        var invoice = invoiceRepository.findById(idInvoice).orElseThrow(() -> new NullPointerException(INVOICE_NOT_FOUND_MESSAGE));
+        var operator = operatorRepository.findById(idOperator).orElseThrow(() -> new NullPointerException("Operator not found"));
+        operator.getInvoices().add(invoice);
+        operatorRepository.save(operator);
+    }
+
+    @Override
+    public float getTotalAmountInvoiceBetweenDates(Date startDate, Date endDate) {
+        return invoiceRepository.getTotalAmountInvoiceBetweenDates(startDate, endDate);
+    }
 
 
 }
