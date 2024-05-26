@@ -228,5 +228,35 @@ class InvoiceServiceImplTest {
             verify(invoiceRepository, times(1)).getTotalAmountInvoiceBetweenDates(startDate, endDate);
         }
     }
+
+    @Nested
+    class CalculateAverageInvoiceAmountForSupplier {
+
+        @Test
+        void WHEN_calculate_average_invoice_amount_for_supplier_THEN_return_average() {
+            var startDate = new Date();
+            var endDate = new Date();
+            when(invoiceRepository.getTotalAmountForSupplierBetweenDates(1L, startDate, endDate)).thenReturn(600f);
+            when(invoiceRepository.countInvoicesForSupplierBetweenDates(1L, startDate, endDate)).thenReturn(2);
+
+            var result = invoiceService.calculateAverageInvoiceAmountForSupplier(1L, startDate, endDate);
+            assertEquals(300f, result);
+            verify(invoiceRepository, times(1)).getTotalAmountForSupplierBetweenDates(1L, startDate, endDate);
+            verify(invoiceRepository, times(1)).countInvoicesForSupplierBetweenDates(1L, startDate, endDate);
+        }
+
+        @Test
+        void WHEN_calculate_average_invoice_amount_for_supplier_with_zero_invoices_THEN_return_zero() {
+            var startDate = new Date();
+            var endDate = new Date();
+            when(invoiceRepository.getTotalAmountForSupplierBetweenDates(1L, startDate, endDate)).thenReturn(0f);
+            when(invoiceRepository.countInvoicesForSupplierBetweenDates(1L, startDate, endDate)).thenReturn(0);
+
+            var result = invoiceService.calculateAverageInvoiceAmountForSupplier(1L, startDate, endDate);
+            assertEquals(0, result);
+            verify(invoiceRepository, times(1)).getTotalAmountForSupplierBetweenDates(1L, startDate, endDate);
+            verify(invoiceRepository, times(1)).countInvoicesForSupplierBetweenDates(1L, startDate, endDate);
+        }
+    }
 }
 

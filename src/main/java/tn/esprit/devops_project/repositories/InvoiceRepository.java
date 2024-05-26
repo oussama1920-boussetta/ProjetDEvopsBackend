@@ -23,5 +23,10 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 	@Modifying
 	@Query("update Invoice i set i.archived=true where i.idInvoice=?1")
 	void updateInvoice(Long id);
+	@Query("SELECT COALESCE(SUM(i.amountInvoice), 0) FROM Invoice i WHERE i.supplier.idSupplier = :supplierId AND i.dateCreationInvoice BETWEEN :startDate AND :endDate")
+	float getTotalAmountForSupplierBetweenDates(@Param("supplierId") Long supplierId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+	@Query("SELECT COUNT(i) FROM Invoice i WHERE i.supplier.idSupplier = :supplierId AND i.dateCreationInvoice BETWEEN :startDate AND :endDate")
+	int countInvoicesForSupplierBetweenDates(@Param("supplierId") Long supplierId, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 	
 }

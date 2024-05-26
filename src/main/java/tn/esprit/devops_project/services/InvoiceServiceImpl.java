@@ -68,6 +68,12 @@ public class InvoiceServiceImpl implements IInvoiceService {
     public float getTotalAmountInvoiceBetweenDates(Date startDate, Date endDate) {
         return invoiceRepository.getTotalAmountInvoiceBetweenDates(startDate, endDate);
     }
+    @Override
+    public float calculateAverageInvoiceAmountForSupplier(Long supplierId, Date startDate, Date endDate) {
+        var totalAmount = invoiceRepository.getTotalAmountForSupplierBetweenDates(supplierId, startDate, endDate);
+        var numberOfInvoices = invoiceRepository.countInvoicesForSupplierBetweenDates(supplierId, startDate, endDate);
+        return (numberOfInvoices == 0) ? 0 : totalAmount / numberOfInvoices;
+    }
 
 
 }

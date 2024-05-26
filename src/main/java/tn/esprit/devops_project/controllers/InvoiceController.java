@@ -2,10 +2,7 @@ package tn.esprit.devops_project.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tn.esprit.devops_project.entities.Invoice;
 import tn.esprit.devops_project.services.iservices.IInvoiceService;
 
@@ -47,5 +44,12 @@ public class InvoiceController {
     @GetMapping("/invoice/price/{startDate}/{endDate}")
     public float getTotalAmountInvoiceBetweenDates(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
         return invoiceService.getTotalAmountInvoiceBetweenDates(startDate, endDate);
+    }
+    @GetMapping("/invoices/supplier/{supplierId}/average")
+    public float calculateAverageInvoiceAmountForSupplier(
+            @PathVariable Long supplierId,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        return invoiceService.calculateAverageInvoiceAmountForSupplier(supplierId, startDate, endDate);
     }
 }
