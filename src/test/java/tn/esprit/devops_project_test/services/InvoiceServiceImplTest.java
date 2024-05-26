@@ -74,9 +74,7 @@ class InvoiceServiceImplTest {
             void WHEN_retrieve_invoice_WITH_id_not_found_THEN_throw_exception() {
                 when(invoiceRepository.findById(2L)).thenReturn(Optional.empty());
 
-                var exception = assertThrows(NullPointerException.class, () -> {
-                    invoiceService.retrieveInvoice(2L);
-                });
+                var exception = assertThrows(NullPointerException.class, () -> invoiceService.retrieveInvoice(2L));
 
                 assertEquals("Invoice not found", exception.getMessage());
                 verify(invoiceRepository, times(1)).findById(2L);
@@ -110,9 +108,7 @@ class InvoiceServiceImplTest {
             void WHEN_cancel_invoice_WITH_id_not_found_THEN_throw_exception() {
                 when(invoiceRepository.findById(2L)).thenReturn(Optional.empty());
 
-                var exception = assertThrows(NullPointerException.class, () -> {
-                    invoiceService.cancelInvoice(2L);
-                });
+                var exception = assertThrows(NullPointerException.class, () -> invoiceService.cancelInvoice(2L));
 
                 assertEquals("Invoice not found", exception.getMessage());
                 verify(invoiceRepository, times(1)).findById(2L);
@@ -151,9 +147,7 @@ class InvoiceServiceImplTest {
             void WHEN_getInvoicesBySupplier_WITH_id_not_found_THEN_throw_exception() {
                 when(supplierRepository.findById(2L)).thenReturn(Optional.empty());
 
-                var exception = assertThrows(NullPointerException.class, () -> {
-                    invoiceService.getInvoicesBySupplier(2L);
-                });
+                var exception = assertThrows(NullPointerException.class, () -> invoiceService.getInvoicesBySupplier(2L));
 
                 assertEquals("Supplier not found", exception.getMessage());
                 verify(supplierRepository, times(1)).findById(2L);
@@ -193,9 +187,7 @@ class InvoiceServiceImplTest {
             void WHEN_assignOperatorToInvoice_WITH_invoice_id_not_found_THEN_throw_exception() {
                 when(invoiceRepository.findById(1L)).thenReturn(Optional.empty());
 
-                var exception = assertThrows(NullPointerException.class, () -> {
-                    invoiceService.assignOperatorToInvoice(1L, 1L);
-                });
+                var exception = assertThrows(NullPointerException.class, () -> invoiceService.assignOperatorToInvoice(1L, 1L));
 
                 assertEquals("Invoice not found", exception.getMessage());
                 verify(invoiceRepository, times(1)).findById(1L);
@@ -210,9 +202,7 @@ class InvoiceServiceImplTest {
                 when(invoiceRepository.findById(1L)).thenReturn(Optional.of(invoice));
                 when(operatorRepository.findById(1L)).thenReturn(Optional.empty());
 
-                var exception = assertThrows(NullPointerException.class, () -> {
-                    invoiceService.assignOperatorToInvoice(1L, 1L);
-                });
+                var exception = assertThrows(NullPointerException.class, () -> invoiceService.assignOperatorToInvoice(1L, 1L));
 
                 assertEquals("Operator not found", exception.getMessage());
                 verify(invoiceRepository, times(1)).findById(1L);

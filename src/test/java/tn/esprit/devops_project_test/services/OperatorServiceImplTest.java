@@ -114,9 +114,7 @@ class OperatorServiceImplTest {
             @Test
             void WHEN_retrieve_operator_WITH_id_not_found_THEN_throw_exception() {
                 when(operatorRepository.findById(2L)).thenReturn(Optional.empty());
-                var exception = assertThrows(NullPointerException.class, () -> {
-                    operatorService.retrieveOperator(2L);
-                });
+                var exception = assertThrows(NullPointerException.class, () -> operatorService.retrieveOperator(2L));
                 assertEquals("Operator not found", exception.getMessage());
                 verify(operatorRepository, times(1)).findById(2L);
             }
