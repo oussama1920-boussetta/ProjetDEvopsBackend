@@ -49,7 +49,7 @@ class InvoiceControllerTest {
 
     @BeforeEach
     public void setUp() {
-        
+
         var supplier = Supplier.builder()
                 .code("SUP001")
                 .label("Supplier 1")
@@ -97,7 +97,7 @@ class InvoiceControllerTest {
     }
 
     @AfterEach
-    public void cleanDB() {
+    public void tearDown() {
         operatorRepository.deleteAll();
         invoiceRepository.deleteAll();
         supplierRepository.deleteAll();
