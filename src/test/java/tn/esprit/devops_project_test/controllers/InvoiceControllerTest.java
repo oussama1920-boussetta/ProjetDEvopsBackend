@@ -1,6 +1,5 @@
 package tn.esprit.devops_project_test.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -20,11 +19,13 @@ import tn.esprit.devops_project.repositories.InvoiceRepository;
 import tn.esprit.devops_project.repositories.OperatorRepository;
 import tn.esprit.devops_project.repositories.SupplierRepository;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -46,11 +47,9 @@ class InvoiceControllerTest {
     @Autowired
     private OperatorRepository operatorRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @BeforeEach
     public void setUp() {
+        
         var supplier = Supplier.builder()
                 .code("SUP001")
                 .label("Supplier 1")
@@ -60,8 +59,12 @@ class InvoiceControllerTest {
 
         supplierRepository.save(supplier);
 
-        var startDate = new Date(2024 - 1900, 3, 1);
-        var endDate = new Date(2024 - 1900, 5, 1);
+        var calendar = Calendar.getInstance();
+        calendar.set(2024, Calendar.MARCH, 1);
+        var startDate = calendar.getTime();
+
+        calendar.set(2024, Calendar.MAY, 1);
+        var endDate = calendar.getTime();
 
         var invoice1 = Invoice.builder()
                 .amountDiscount(10)
@@ -91,7 +94,6 @@ class InvoiceControllerTest {
                 .build();
 
         operatorRepository.save(operator);
-
     }
 
     @AfterEach
@@ -140,7 +142,9 @@ class InvoiceControllerTest {
                             .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
 
-            var archivedInvoice = invoiceRepository.findById(id).get();
+            var archivedInvoiceOptional = invoiceRepository.findById(id);
+            assertTrue(archivedInvoiceOptional.isPresent());
+            Invoice archivedInvoice = archivedInvoiceOptional.get();
             assertThat(archivedInvoice.getArchived(), is(true));
         }
 
