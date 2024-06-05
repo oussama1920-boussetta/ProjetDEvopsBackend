@@ -1,0 +1,21 @@
+global:
+
+receivers:
+  - name: 'gmail-notifications'
+    email_configs:
+      - to: mohamedoussama.boussetta@esprit.tn
+        from: wtravel721@gmail.com
+        smarthost: smtp.gmail.com:587
+        auth_username: wtravel721@gmail.com
+        auth_identity: wtravel721@gmail.com
+        auth_password: ytugyptqnsxvaxrp
+        send_resolved: true
+route:
+  group_by: ['instance', 'severity']
+  group_wait: 30s
+  group_interval: 1m
+  repeat_interval: 5m
+  routes:
+    - match:
+        alertname: PrometheusTargetMissing
+  receiver: 'gmail-notifications'
