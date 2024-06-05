@@ -16,63 +16,63 @@ services:
       - sonar-extension:/opt/sonarqube/extensions
     networks:
       - monitor-net
-  nexus:
-    container_name: nexus
-    image: sonatype/nexus3
-    ports:
-      - 8081:8081
-    restart: always
-    networks:
-      - monitor-net
-    volumes:
-      - nexus-data:/nexus-data
+#  nexus:
+ #   container_name: nexus
+  #  image: sonatype/nexus3
+   # ports:
+    #  - 8081:8081
+    #restart: always
+    #networks:
+     # - monitor-net
+    #volumes:
+     # - nexus-data:/nexus-data
   # docker run -d -p 8081:8081 --name nexuswitoutvars sonatype/nexus3 => curl http://localhost:8081/nexus/service/local/status
 
-  #prometheus:
-#    container_name: prometheus
- #   image: prom/prometheus:latest
-  #  ports:
-   #   - 9090:9090
-    #restart: always
-    #volumes:
-#      - prometheus_data:/prometheus
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    restart: always
+    volumes:
+      - prometheus_data:/prometheus
 #      - ./prometheus:/etc/prometheus:rw,Z
-#    command:
- #     - '--config.file=/etc/prometheus/prometheus.yml'
-  #  networks:
-   #   - monitor-net
-#  grafana:
- #   container_name: grafana
-  #  image: grafana/grafana:latest
-   # ports:
-    #  - 3000:3000
-#    restart: always
- #   volumes:
-  #    - grafana_data:/var/lib/grafana
-   # depends_on:
-    #  - prometheus
-#    networks:
-#      - monitor-net
- # alertmanager:
-  #  container_name: alertmanager
-   # image: prom/alertmanager:latest
-    #ports:
-     # - 9093:9093
-    #restart: always
-    #volumes:
-     # - alertmanager_data:/alertmanager
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - monitor-net
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    restart: always
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - monitor-net
+  alertmanager:
+    container_name: alertmanager
+    image: prom/alertmanager:latest
+    ports:
+      - 9093:9093
+    restart: always
+    volumes:
+      - alertmanager_data:/alertmanager
     #      - ./alermanager:/etc/alertmanager:rw,Z
-#    command:
- #     - '--config.file=/etc/alertmanager/alertmanager.yml'
-  #    - '--storage.path=/alertmanager'
-   # depends_on:
-    #  - prometheus
-   # networks:
-    #  - monitor-net
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    depends_on:
+      - prometheus
+    networks:
+      - monitor-net
 volumes:
-  #prometheus_data: {}
-  #grafana_data: {}
-  #alertmanager_data: {}
+  prometheus_data: {}
+  grafana_data: {}
+  alertmanager_data: {}
   nexus-data: {}
   sonar-data: {}
   sonar-log: {}
