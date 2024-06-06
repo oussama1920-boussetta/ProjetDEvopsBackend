@@ -24,6 +24,6 @@ services:
       - 3306:3306
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     networks:
       - monitor-net
