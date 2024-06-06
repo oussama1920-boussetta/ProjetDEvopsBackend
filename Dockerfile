@@ -1,4 +1,5 @@
-FROM openjdk:11-jre-slim
+#FROM openjdk:11-jre-slim
+FROM openjdk:17
 
 EXPOSE 8082
 #ARG APP_NAME=my-spring-boot-app
@@ -11,7 +12,6 @@ EXPOSE 8082
 #ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=$SPRING_PROFILES_ACTIVE", "/app.jar"]
 
 
-#FROM openjdk:21
 
 COPY target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
