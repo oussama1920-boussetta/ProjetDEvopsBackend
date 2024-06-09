@@ -1,4 +1,6 @@
 version: '3'
+volumes:
+  dockerAngularSpringDatabaseData:
 networks:
   monitor-net:
     external: true
@@ -29,9 +31,7 @@ services:
     ports:
       - "8082:8082"
     networks:
-      - monitor-net'
-
-
+      - monitor-net
 #  mysql:
  #   container_name: mysql
   #  image: mysql
