@@ -3,15 +3,34 @@ networks:
   monitor-net:
     external: true
 services:
+  database:
+    image: mysql
+    container_name: database
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: company
+      MYSQL_USER: pradeep
+      MYSQL_PASSWORD: pradeep
+    ports:
+      - 3307:3306
+    volumes:
+      - dockerAngularSpringDatabaseData:/var/lib/mysql
+    networks:
+      - backendNetwork
 
   spring:
     container_name: devops-app
     image: oussamaboussetta/oussama_repo:latest
     restart: always
+    depends_on:
+        - database
+    environment:
+        SPRING_PROFILES_ACTIVE: dev
     ports:
       - "8082:8082"
     networks:
-      - monitor-net
+      - monitor-net'
+
 
 #  mysql:
  #   container_name: mysql
