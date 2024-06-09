@@ -4,6 +4,7 @@ volumes:
 networks:
   monitor-net:
     external: true
+  monitoring:
 services:
   database:
     image: mysql
@@ -32,6 +33,25 @@ services:
       - "8082:8082"
     networks:
       - monitor-net
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - '3000:3000'
+    networks:
+      - monitoring
 #  mysql:
  #   container_name: mysql
   #  image: mysql
