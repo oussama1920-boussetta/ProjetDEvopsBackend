@@ -21,7 +21,7 @@ services:
       - monitor-net
 
   spring:
-    container_name: devops-app
+    container_name: devop-app
     image: oussamaboussetta/oussama_repo:latest
     restart: always
     depends_on:
