@@ -2,6 +2,7 @@ version: '3'
 networks:
   monitor-net:
     external: true
+
 services:
   sonarqube:
     container_name: sonarqube
@@ -16,17 +17,17 @@ services:
       - sonar-extension:/opt/sonarqube/extensions
     networks:
       - monitor-net
-#  nexus:
- #   container_name: nexus
-  #  image: sonatype/nexus3
-   # ports:
-    #  - 8081:8081
-    #restart: always
-    #networks:
-     # - monitor-net
-    #volumes:
-     # - nexus-data:/nexus-data
-  # docker run -d -p 8081:8081 --name nexuswitoutvars sonatype/nexus3 => curl http://localhost:8081/nexus/service/local/status
+
+  nexus:
+    container_name: nexus
+    image: sonatype/nexus3
+    ports:
+      - 8081:8081
+    restart: always
+    networks:
+      - monitor-net
+    volumes:
+      - nexus-data:/nexus-data
 
   prometheus:
     container_name: prometheus
@@ -41,6 +42,7 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
       - monitor-net
+
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
@@ -53,6 +55,7 @@ services:
       - prometheus
     networks:
       - monitor-net
+
   alertmanager:
     container_name: alertmanager
     image: prom/alertmanager:latest
@@ -61,7 +64,7 @@ services:
     restart: always
     volumes:
       - alertmanager_data:/alertmanager
-    #      - ./alermanager:/etc/alertmanager:rw,Z
+#      - ./alertmanager:/etc/alertmanager:rw,Z
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--storage.path=/alertmanager'
@@ -69,6 +72,7 @@ services:
       - prometheus
     networks:
       - monitor-net
+
 volumes:
   prometheus_data: {}
   grafana_data: {}
