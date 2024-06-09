@@ -18,7 +18,7 @@ services:
     volumes:
       - dockerAngularSpringDatabaseData:/var/lib/mysql
     networks:
-      - backendNetwork
+      - monitor-net
 
   spring:
     container_name: devops-app
