@@ -29,5 +29,10 @@ public class StockController {
         return stockService.retrieveAllStock();
     }
 
+    @GetMapping("/stock/below-threshold")
+    public List<Stock> findStocksBelowThreshold(@RequestParam int threshold) {
+        return stockService.findStocksBelowThreshold(threshold);
+    }
+
 
 }

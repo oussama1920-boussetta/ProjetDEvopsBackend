@@ -10,4 +10,7 @@ public interface IStockService {
     Stock retrieveStock(Long id);
     List<Stock> retrieveAllStock();
 
+    List<Stock> findStocksBelowThreshold(int threshold);
+
+
 }

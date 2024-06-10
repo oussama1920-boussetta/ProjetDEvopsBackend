@@ -29,6 +29,10 @@ public class StockServiceImpl implements IStockService {
         return stockRepository.findAll();
     }
 
+    public List<Stock> findStocksBelowThreshold(int threshold) {
+        return stockRepository.findByQuantityLessThan(threshold);
+    }
+
 
 
 }
