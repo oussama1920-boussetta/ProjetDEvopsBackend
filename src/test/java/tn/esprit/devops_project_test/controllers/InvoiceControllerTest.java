@@ -188,6 +188,18 @@ class InvoiceControllerTest {
                     .mapToDouble(Invoice::getAmountInvoice)
                     .sum();
         }
+        @Test
+        void WHEN_calculate_average_invoice_amount_for_supplier_THEN_return_average() throws Exception {
+            var supplierId = supplierRepository.findAll().get(0).getIdSupplier();
+            var startDate = invoiceRepository.findAll().get(0).getDateCreationInvoice();
+            var endDate = invoiceRepository.findAll().get(1).getDateCreationInvoice();
+            var expectedAverage = 100f;
+
+            mockMvc.perform(get("/invoices/supplier/{supplierId}/average?startDate={startDate}&endDate={endDate}", supplierId, startDate, endDate)
+                            .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().string(String.valueOf(expectedAverage)));
+        }
     }
 
 }
